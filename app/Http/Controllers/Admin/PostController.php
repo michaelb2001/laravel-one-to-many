@@ -5,6 +5,7 @@ use App\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use App\Category;
 class PostController extends Controller
 {
@@ -55,12 +56,17 @@ class PostController extends Controller
         $request->validate([
             "title"=>"required|string|max:80|unique:posts",
             "content"=>"required|string|max:255",
-            "image"=>"nullable|image",
+            "img"=>"nullable|image|mimes:jpeg,png",
             "category_id"=>"nullable"
         ]);
 
         $data=$request->all();
         $data['slug']=$this->slug($data['title']);
+        if(isset($data["img"])){
+            $img_path = Storage::put('uploads', $data['img']);
+            $data['img'] = $img_path;
+        }
+
         $newPost= new Post();   
         $newPost->fill($data);     
         $newPost->save();                   

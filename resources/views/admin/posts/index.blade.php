@@ -20,7 +20,7 @@
             @foreach($posts as $post)
             <div class="container d-flex flex-column align-items-start">
             <h1>{{$post->title}}</h1>
-            <img src="{{$post->img}}" alt="{{$post->title}}">
+            <img src="{{asset('storage/'.$post->img)}}" alt="{{$post->title}}">
             <ul class="p-0">
                 <strong>content:</strong> 
                 <li>
